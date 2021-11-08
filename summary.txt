@@ -1,0 +1,1 @@
+#2: If msg.sender is different from tx.origin, am I protected ?
