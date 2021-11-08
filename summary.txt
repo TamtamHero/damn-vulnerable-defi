@@ -2,3 +2,4 @@
 #3: can my contract be abused by being tricked to call (local or remote) methods where he's privileged ? (erc20 allowance for instance)
     calling calldata directly -> contract becomes a puppet
     instead, call a predefined named callback with defined prototype (the chainlink way, or even "unstoppable" way)
+#4: You need to track user's debt when they borrow, not just the pool balance (maybe have signed balance to write down negative balance ?)

