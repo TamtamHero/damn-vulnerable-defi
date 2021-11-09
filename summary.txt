@@ -7,3 +7,4 @@
 #6: Such a drain method should be restricted to send fund to a trusted multisig address. Voting power should be averaged in a time window to avoid 1 block coups by flash loaners.
 #7: ever heard of HSM ?
 #8: Uniswap can be easily manipulated, it's not a reliable oracle "as is".
+#9: Univ2 isn't more secure than v1 out of the box
